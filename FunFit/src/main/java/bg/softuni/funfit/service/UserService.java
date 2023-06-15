@@ -4,6 +4,7 @@ import bg.softuni.funfit.model.User;
 import bg.softuni.funfit.model.dto.UserRegistrationDTO;
 import bg.softuni.funfit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -11,10 +12,12 @@ import java.util.Optional;
 public class UserService {
 
         private UserRepository userRepository;
+        private PasswordEncoder passwordEncoder;
 
         @Autowired
-        public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+        public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+            this.userRepository = userRepository;
+            this.passwordEncoder = passwordEncoder;
         }
 
     public void register(UserRegistrationDTO registrationDTO){
@@ -32,7 +35,7 @@ public class UserService {
 
             User user = new User(
                     registrationDTO.getUsername(),
-                    registrationDTO.getPassword(),
+                    passwordEncoder.encode(registrationDTO.getPassword()),
                     registrationDTO.getEmail(),
                     registrationDTO.getFullName(),
                     registrationDTO.getAge()
