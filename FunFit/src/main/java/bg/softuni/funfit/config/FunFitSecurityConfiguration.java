@@ -25,6 +25,7 @@ public class FunFitSecurityConfiguration {
         http.authorizeRequests().requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login", "/register").anonymous()
+                .antMatchers("/profile").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -32,6 +33,12 @@ public class FunFitSecurityConfiguration {
                 .passwordParameter("password")
                 .defaultSuccessUrl("/")
                 .failureForwardUrl("/login?error=true")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
                 .and()
                 .csrf().disable();
 

@@ -1,9 +1,12 @@
 package bg.softuni.funfit.web;
 
+import bg.softuni.funfit.model.User;
+import bg.softuni.funfit.model.views.UserProfileView;
 import bg.softuni.funfit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import bg.softuni.funfit.model.dto.UserRegistrationDTO;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class UserController {
@@ -57,6 +61,21 @@ public class UserController {
     public String login(){
 
         return "login";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model){
+        String username = principal.getName();
+        User user = userService.getUser(username);
+        //TODO This has to be in model mapper !
+        UserProfileView userProfileView = new UserProfileView(user.getUsername()
+                ,user.getEmail()
+                ,user.getFullName()
+                ,user.getAge()
+        );
+        model.addAttribute("user",userProfileView);
+        //TODO Have to fix the view on profile page
+        return "profile";
     }
 
 }

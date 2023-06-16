@@ -1,4 +1,4 @@
 <<th:block>
-        <th:block th:include="~{/fragments/guest-nav}" />
-        <th:block th:include="~{/fragments/logged-nav}" />
+        <th:block sec:authorize="isAnonymous()" th:include="~{/fragments/guest-nav}" />
+        <th:block sec:authorize="isAuthenticated()" th:include="~{/fragments/logged-nav}" />
 </th:block>>

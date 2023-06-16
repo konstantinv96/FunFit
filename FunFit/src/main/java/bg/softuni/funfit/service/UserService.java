@@ -4,6 +4,7 @@ import bg.softuni.funfit.model.User;
 import bg.softuni.funfit.model.dto.UserRegistrationDTO;
 import bg.softuni.funfit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class UserService {
             this.passwordEncoder = passwordEncoder;
         }
 
-    public void register(UserRegistrationDTO registrationDTO){
+        public void register(UserRegistrationDTO registrationDTO){
             if(!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())){
 
                 throw new RuntimeException("passwords.match");
@@ -43,6 +44,11 @@ public class UserService {
 
             this.userRepository.save(user);
 
+        }
+        public User getUser(String username){
+
+            return userRepository.findByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(username + " was not found!"));
         }
 
 }
