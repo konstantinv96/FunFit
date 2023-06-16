@@ -38,9 +38,7 @@ public class FunFitSecurityConfiguration {
                 .logoutUrl("/logout")
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/")
-                .and()
-                .csrf().disable();
+                .logoutSuccessUrl("/");
 
             return http.build();
     };
