@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -18,6 +19,11 @@ public class CommentRestController {
 
     public CommentRestController(CommentService commentService) {
         this.commentService = commentService;
+    }
+
+    @GetMapping("/{workoutId}/comments")
+    public ResponseEntity<List<CommentDisplayView>> getComments(@PathVariable("workoutId") Long workoutId){
+            return ResponseEntity.ok(commentService.getAllCommentsForWorkout(workoutId));
     }
 
     @PostMapping(value = "/{workoutId}/comments", consumes = "application/json", produces = "application/json")

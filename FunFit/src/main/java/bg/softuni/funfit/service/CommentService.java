@@ -1,7 +1,9 @@
 package bg.softuni.funfit.service;
 
+import bg.softuni.funfit.exceptions.WorkoutNotFoundException;
 import bg.softuni.funfit.model.Comment;
 import bg.softuni.funfit.model.User;
+import bg.softuni.funfit.model.Workout;
 import bg.softuni.funfit.model.dto.CommentCreationDTO;
 import bg.softuni.funfit.model.views.CommentDisplayView;
 import bg.softuni.funfit.repository.CommentRepository;
@@ -10,6 +12,9 @@ import bg.softuni.funfit.repository.WorkoutRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -38,5 +43,13 @@ public class CommentService {
         commentRepository.save(comment);
 
         return new CommentDisplayView(comment.getId(),author.getFullName(),comment.getText());
+    }
+
+    public List<CommentDisplayView> getAllCommentsForWorkout(Long workoutId){
+        Workout workout = workoutRepository.findById(workoutId).orElseThrow(WorkoutNotFoundException::new);
+
+        List<Comment> comments = commentRepository.findAllByWorkout(workout).get();
+        return comments.stream().map(comment -> new CommentDisplayView(comment.getId(),
+                comment.getAuthor().getFullName(),comment.getText())).collect(Collectors.toList());
     }
 }
