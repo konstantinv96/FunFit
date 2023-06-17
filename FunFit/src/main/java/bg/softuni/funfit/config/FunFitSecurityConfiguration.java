@@ -25,7 +25,7 @@ public class FunFitSecurityConfiguration {
         http.authorizeRequests().requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login", "/register").anonymous()
-                .antMatchers("/profile").authenticated()
+                .antMatchers("/profile","/workouts/all").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
