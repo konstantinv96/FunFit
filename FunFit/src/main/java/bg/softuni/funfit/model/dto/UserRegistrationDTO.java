@@ -1,14 +1,23 @@
 package bg.softuni.funfit.model.dto;
 
 
+import bg.softuni.funfit.model.validation.FieldMatch;
+import bg.softuni.funfit.model.validation.UniqueUserEmail;
+import bg.softuni.funfit.model.validation.UniqueUserName;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
-
+@FieldMatch(
+        first = "password",
+        second = "confirmPassword",
+        message = "Passwords do not match."
+)
 public class UserRegistrationDTO {
 
 
         @NotBlank(message = "Username should be provided.")
         @Size(min = 5 , max = 20 , message = "Username must be between 5 and 20 characters")
+        @UniqueUserName(message = "Username should be unique.")
         private String username;
 
         @NotBlank
@@ -17,6 +26,7 @@ public class UserRegistrationDTO {
 
         @NotBlank(message = "User email should be provided.")
         @Email(message = "User email should be valid.")
+        @UniqueUserEmail(message = "User email should be unique.")
         private String email;
 
         @Min(1)

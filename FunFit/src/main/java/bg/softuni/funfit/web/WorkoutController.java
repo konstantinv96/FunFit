@@ -23,6 +23,9 @@ public class WorkoutController {
         this.userService = userService;
     }
 
+
+
+
     @GetMapping("/all")
     public String getAllWorkouts(Model model){
 
