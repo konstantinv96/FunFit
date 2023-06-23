@@ -1,10 +1,16 @@
 package bg.softuni.funfit.service;
 
 import bg.softuni.funfit.exceptions.WorkoutNotFoundException;
+import bg.softuni.funfit.model.User;
+import bg.softuni.funfit.model.Workout;
+import bg.softuni.funfit.model.dto.AddWorkoutDTO;
 import bg.softuni.funfit.model.views.WorkoutDetailsView;
 import bg.softuni.funfit.model.views.WorkoutIndexView;
+import bg.softuni.funfit.repository.UserRepository;
 import bg.softuni.funfit.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +19,31 @@ import java.util.stream.Collectors;
 @Service
 public class WorkoutService {
     private WorkoutRepository workoutRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public WorkoutService(WorkoutRepository workoutRepository) {
+    public WorkoutService(WorkoutRepository workoutRepository, UserRepository userRepository) {
         this.workoutRepository = workoutRepository;
+        this.userRepository = userRepository;
     }
+
+    public void addWorkout(AddWorkoutDTO addWorkoutDTO, UserDetails userDetails){
+        User workoutAuthor = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
+
+        //TODO: fix it
+        Workout workout = new Workout(addWorkoutDTO.getName(),
+                addWorkoutDTO.getMainGoal(),
+                addWorkoutDTO.getSessionTime(),
+                addWorkoutDTO.getLevel(),
+                addWorkoutDTO.getDuration(),
+                addWorkoutDTO.getDaysPerWeek(),
+                addWorkoutDTO.getDescription(),
+                addWorkoutDTO.getImageURL());
+        workout.setAuthor(workoutAuthor);
+
+        workoutRepository.save(workout);
+    }
+
 
     public List<WorkoutIndexView> getAllWorkouts(){
         //TODO Use model mapper !

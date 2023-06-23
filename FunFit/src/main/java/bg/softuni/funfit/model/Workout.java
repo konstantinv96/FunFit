@@ -23,7 +23,6 @@ public class Workout {
     private double sessionTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true)
     private Level level;
 
     @Column(nullable = false)
@@ -50,6 +49,17 @@ public class Workout {
     public Workout(){
         this.comments = new HashSet<>();
         this.categories = new HashSet<>();
+    }
+
+    public Workout(String name, String mainGoal, double sessionTime, Level level, int duration, int daysPerWeek, String description, String pictureURL) {
+        this.name = name;
+        this.mainGoal = mainGoal;
+        this.sessionTime = sessionTime;
+        this.level = level;
+        this.duration = duration;
+        this.daysPerWeek = daysPerWeek;
+        this.description = description;
+        this.pictureURL = pictureURL;
     }
 
     public long getId() {

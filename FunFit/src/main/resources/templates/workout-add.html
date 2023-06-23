@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Fun Fit</title>
+    <th:block th:include="~{/fragments/head}" />
+</head>
+
+<body>
+    <th:block th:include="~{/fragments/header}"/>
+
+<div class="container">
+    <h2 class="text-center text-white">Create Workout</h2>
+    <form   th:action="@{/workouts/add}"
+            th:method="post"
+            th:object="${addWorkoutDTO}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+        <div class="form-group">
+            <label class="text-white font-weight-bold" for="name">Workout name</label>
+            <input name="name" th:errorclass="is-invalid" th:field="*{name}" id="name" type="text" class="form-control"
+                   placeholder="Add workout name">
+            <p class="invalid-feedback errors alert alert-danger">
+                Workout name is required.
+            </p>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="category">Category</label>
+                <select name="category" id="category" class="form-control">
+                    <option value="">- Select a workout category -</option>
+                    <optgroup label="Category name">
+                        <option>
+                            Category
+                        </option>
+                    </optgroup>
+                </select>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Workout category is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="duration" class="text-white font-weight-bold">Workout duration</label>
+                <input name="duration" th:errorclass="is-invalid" th:field="*{duration}" id="duration" type="number" min="0" step="30" class="form-control"
+                       placeholder="Add duration"/>
+                <p  class="invalid-feedback errors alert alert-danger">
+                    Workout duration is required.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+            <label class="text-white font-weight-bold" for="mainGoal">Main goal</label>
+            <input name="mainGoal" th:errorclass="is-invalid" th:field="*{mainGoal}" id="mainGoal" type="text" class="form-control"
+                   placeholder="Add main goal">
+            <p class="invalid-feedback errors alert alert-danger">
+                Main goal of the workout is required.
+            </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-white font-weight-bold" for="sessionTime">Session time in minutes</label>
+                <input name="sessionTime" th:errorclass="is-invalid" th:field="*{sessionTime}" id="sessionTime" type="number" class="form-control"
+                       placeholder="Add session time in minutes">
+                <p class="invalid-feedback errors alert alert-danger">
+                    Session time for the workout is required.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="level">Workout level</label>
+                <select name="level" id="level" class="form-control" th:errorclass="is-invalid">
+                    <option value="">- Select a workout level -</option>
+                    <optgroup label="Workout level">
+                        <option th:each="l : ${T(bg.softuni.funfit.model.enums.Level).values()}"
+                                th:text="${l}"
+                                th:value="${l}"
+                                th:selected="${l} == *{level}">
+                            Level
+                        </option>
+                    </optgroup>
+                </select>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Workout level is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-white font-weight-bold" for="daysPerWeek">Days per week</label>
+                <input name="daysPerWeek" th:errorclass="is-invalid" th:field="*{daysPerWeek}" id="daysPerWeek" type="number" min="1" max="7" class="form-control"
+                       placeholder="Add days per week">
+                <p class="invalid-feedback errors alert alert-danger">
+                    Days per week is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="text-white font-weight-bold" for="description">Description</label>
+            <textarea name="description" th:errorclass="is-invalid" th:field="*{description}" id="description" type="textarea" class="form-control" rows="3"
+                      placeholder="Description"></textarea>
+            <p class="invalid-feedback errors alert alert-danger">
+                Description is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label class="text-white font-weight-bold" for="imageUrl">Image URL</label>
+            <input name="imageUrl" th:errorclass="is-invalid" th:field="*{imageURL}" id="imageUrl" type="url" class="form-control"
+                   placeholder="Put workout image URL here">
+            <p class="invalid-feedback errors alert alert-danger">
+                Workout image URL is required.
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Submit Workout"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
