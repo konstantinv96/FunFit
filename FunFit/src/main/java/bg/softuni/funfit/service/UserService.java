@@ -12,14 +12,16 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-        private UserRepository userRepository;
-        private PasswordEncoder passwordEncoder;
+        private final UserRepository userRepository;
+        private final PasswordEncoder passwordEncoder;
+        private final EmailService emailService;
 
-        @Autowired
-        public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    @Autowired
+        public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,EmailService emailService) {
             this.userRepository = userRepository;
             this.passwordEncoder = passwordEncoder;
-        }
+            this.emailService = emailService;
+    }
 
         public void register(UserRegistrationDTO registrationDTO){
             if(!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())){
@@ -43,6 +45,7 @@ public class UserService {
             );
 
             this.userRepository.save(user);
+            emailService.sendRegistrationEmail(user.getEmail(),user.getUsername());
 
         }
         public User getUser(String username){

@@ -28,6 +28,13 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
+
+mail:
+  host: "localhost"
+  port: 1025
+  username: "funfit@funfit.com"
+  password: ""
+
   #Cloudinary Properties
   #cloudinary:
   #api-key:
