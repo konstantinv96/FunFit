@@ -23,10 +23,10 @@
                 </div>
                 <ul class="offer-details list-group list-group-flush">
                     <li class="list-group-item">
-                        <div class="card-text" th:text="*{level}"><span>• Level</span></div>
-                        <div class="card-text" th:text="*{mainGoal}"><span>• Main goal</span></div>
-                        <div class="card-text" th:text="*{duration}"><span>• Duration</span></div>
-                        <div class="card-text" th:text="*{daysPerWeek}"><span>• Days per week</span></div>
+                        <p class="card-text">Level: <th:block th:text="*{level}"></th:block></p>
+                        <p class="card-text">Main goal: <th:block th:text="*{mainGoal}"></th:block></p>
+                        <p class="card-text">Duration: <th:block th:text="*{duration}"></th:block> minutes</p>
+                        <p class="card-text">Days per week: <th:block th:text="*{daysPerWeek}"></th:block></p>
                     </li>
                 </ul>
                 <div class="card-body">
