@@ -1,6 +1,7 @@
 package bg.softuni.funfit.web;
 
 import bg.softuni.funfit.model.dto.AddWorkoutDTO;
+import bg.softuni.funfit.model.dto.SearchWorkoutDTO;
 import bg.softuni.funfit.model.views.WorkoutDetailsView;
 import bg.softuni.funfit.model.views.WorkoutIndexView;
 import bg.softuni.funfit.service.UserService;
@@ -77,4 +78,28 @@ public class WorkoutController {
         //TODO Create a comment section for each workout
         return "workout-details";
     }
+
+    @GetMapping("/search")
+    public String searchQuery(@Valid SearchWorkoutDTO searchWorkoutDTO, BindingResult bindingResult,
+                              Model model){
+
+        if(bindingResult.hasErrors()){
+            model.addAttribute("searchWorkoutModel", searchWorkoutDTO);
+            model.addAttribute("org.springframework.validation.BindingResult.searchWorkoutModel", bindingResult);
+
+            return "workout-search";
+        }
+
+        if(!model.containsAttribute("searchWorkoutModel")){
+            model.addAttribute("searchWorkoutModel", searchWorkoutDTO);
+        }
+
+        if(!searchWorkoutDTO.isEmpty()){
+            model.addAttribute("workouts", workoutService.searchWorkout(searchWorkoutDTO));
+        }
+
+        return "workout-search";
+
+    }
+
 }
