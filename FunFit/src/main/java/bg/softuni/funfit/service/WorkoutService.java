@@ -5,6 +5,7 @@ import bg.softuni.funfit.model.User;
 import bg.softuni.funfit.model.Workout;
 import bg.softuni.funfit.model.dto.AddWorkoutDTO;
 import bg.softuni.funfit.model.dto.SearchWorkoutDTO;
+import bg.softuni.funfit.model.enums.UserRoles;
 import bg.softuni.funfit.model.views.WorkoutDetailsView;
 import bg.softuni.funfit.model.views.WorkoutIndexView;
 import bg.softuni.funfit.repository.UserRepository;
@@ -46,6 +47,10 @@ public class WorkoutService {
         workoutRepository.save(workout);
     }
 
+    public void deleteWorkoutById(Long workoutId){
+        workoutRepository.deleteById(workoutId);
+    }
+
 
     public List<WorkoutIndexView> getAllWorkouts(){
         //TODO Use model mapper !
@@ -85,5 +90,26 @@ public class WorkoutService {
                 workout.getDuration(),
                 workout.getDaysPerWeek(),
                 workout.getPictureURL());
+    }
+
+    public boolean isAuthor(String userName,Long workoutId){
+
+        boolean isAuthor = workoutRepository.
+                findById(workoutId).
+                filter(w -> w.getAuthor().getUsername().equals(userName)).
+                isPresent();
+
+        if(isAuthor){
+            return true;
+        }
+
+        return  userRepository.
+                findByUsername(userName).
+                filter(this::isAdmin).isPresent();
+
+    }
+
+    private boolean isAdmin(User user){
+       return user.getRoles().stream().anyMatch(r -> r.getName() == UserRoles.ADMIN);
     }
 }

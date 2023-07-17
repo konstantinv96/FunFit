@@ -17,25 +17,25 @@ public class WorkoutSpecification implements Specification<Workout> {
         this.searchWorkoutDTO = searchWorkoutDTO;
     }
 
-    //TODO fix workout level to work and check search by name to work properly also fix invalid data input
+
     @Override
     public Predicate toPredicate(Root<Workout> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         Predicate p = cb.conjunction();
 
-        if(searchWorkoutDTO.getName().isEmpty()){
+        if(searchWorkoutDTO.getName() != null && !searchWorkoutDTO.getName().isEmpty()){
             p.getExpressions().add(
                     cb.and(cb.equal(root.get("name"),searchWorkoutDTO.getName()))
             );
         }
         if(searchWorkoutDTO.getDaysPerWeek() != null){
             p.getExpressions().add(
-                    cb.and(cb.greaterThanOrEqualTo(root.get("daysPerWeek"), searchWorkoutDTO.getDaysPerWeek()))
+                    cb.and(cb.equal(root.get("daysPerWeek"), searchWorkoutDTO.getDaysPerWeek()))
             );
         }
         if(searchWorkoutDTO.getWorkoutLevel() != null){
             p.getExpressions().add(
-                    cb.and(cb.equal(root.join("workoutLevel"),searchWorkoutDTO.getWorkoutLevel()))
-            );
+                    cb.and(cb.equal(root.get("level"),searchWorkoutDTO.getWorkoutLevel())
+            ));
         }
 
         return p;

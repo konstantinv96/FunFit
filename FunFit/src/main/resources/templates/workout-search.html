@@ -40,16 +40,17 @@
                     aria-label="Search"
                     id="daysPerWeek"
             />
-            <input
-                    th:field="*{workoutLevel}"
-                    th:errorclass="is-invalid"
-                    class="form-control mr-sm-2"
-                    style="width: 280px;"
-                    type="search"
-                    placeholder="Workout level..."
-                    aria-label="Search"
-                    id="workoutLevel"
-            />
+            <select th:field="*{workoutLevel}" th:errorclass="is-invalid" name="workoutLevel" id="workoutLevel" class="form-control">
+                <option value="">- Select a workout level -</option>
+                <optgroup label="Workout level">
+                    <option th:each="l : ${T(bg.softuni.funfit.model.enums.Level).values()}"
+                            th:text="${l}"
+                            th:value="${l}"
+                            th:selected="${l} == *{workoutLevel}">
+                        Level
+                    </option>
+                </optgroup>
+            </select>
             <small
                     id="searchOfferHelpInline"
                     class="bg-danger text-light rounded invalid-feedback"
@@ -87,7 +88,7 @@
                 </div>
             </div>
         </div>
-        <h3 th:if="${workouts != null && workouts.size == 0}" class="text-info">There are no offers with this specifications.</h3>
+        <h3 th:if="${workouts != null && workouts.size == 0}" class="text-info" style="text-align: center">There are no offers with this specifications.</h3>
 
 
 </body>

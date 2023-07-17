@@ -6,19 +6,18 @@ import bg.softuni.funfit.model.views.WorkoutDetailsView;
 import bg.softuni.funfit.model.views.WorkoutIndexView;
 import bg.softuni.funfit.service.UserService;
 import bg.softuni.funfit.service.WorkoutService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -79,9 +78,20 @@ public class WorkoutController {
         return "workout-details";
     }
 
+    @PreAuthorize("@workoutService.isAuthor(#principal.name, #id)")
+    @DeleteMapping("/details/{id}")
+    public String deleteWorkout(
+            Principal principal,
+            @PathVariable("id") Long id){
+        workoutService.deleteWorkoutById(id);
+
+         return "redirect:/workouts/all";
+    }
+
+
     @GetMapping("/search")
-    public String searchQuery(@Valid SearchWorkoutDTO searchWorkoutDTO, BindingResult bindingResult,
-                              Model model){
+    public String searchQuery(@Valid SearchWorkoutDTO searchWorkoutDTO, BindingResult bindingResult
+            ,RedirectAttributes redirectAttributes,Model model){
 
         if(bindingResult.hasErrors()){
             model.addAttribute("searchWorkoutModel", searchWorkoutDTO);
