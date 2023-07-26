@@ -57,3 +57,7 @@ form.main-form {
 .logged-user {
      color: white;
 }
+.profile-card.p-3.py-4 {
+     background-color: #fd7e14; /* Energetic Orange */
+     color: #fff; /* White text for better contrast */
+}

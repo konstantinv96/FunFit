@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <header th:replace="fragments/header"></header>
+<header th:replace="fragments/header"></header>
 <input type="hidden" name="workoutId" id="workoutId" th:value="${workout.id}">
 <div class="container-fluid" th:object="${workout}">
     <h2 class="text-center text-white mt-5">Details</h2>
@@ -17,24 +17,24 @@
 
             <div class="card-body pb-1">
                 <h5 class="card-title" th:text="*{name}">
-                    </h5>
+                </h5>
             </div>
             <ul class="offer-details list-group list-group-flush">
                 <li class="list-group-item">
-                    <div class="card-text" th:text="*{mainGoal}"><span>• Main goal</span></div>
-                    <div class="card-text" th:text="*{sessionTime}"><span>• Session time</span></div>
-                    <div class="card-text" th:text="*{level}"><span>• Level</span></div>
-                    <div class="card-text" th:text="*{duration}"><span>• Duration</span></div>
-                    <div class="card-text" th:text="*{daysPerWeek}"><span>• Days per week</span></div>
-                    <div class="card-text" th:text="*{description}"><span>• Description</span></div>
-                    <div class="card-text" th:text="*{authorName}"><span>• Author</span></div>
+                    <div><b>Main goal: </b> <span th:text="*{mainGoal}"></span></div>
+                    <div><b>Session time:</b> <span th:text="*{sessionTime}"></span> minutes</div>
+                    <div><b>Level: </b> <span th:text="*{level}" ></span></div>
+                    <div> <b>Duration: </b> <span th:text="*{duration}"></span> days</div>
+                    <div><b>Days per week: </b> <span th:text="*{daysPerWeek}"></span></div>
+                    <div> <b>Description: </b> <span th:text="*{description}"></span></div>
+                    <div> <b>Author: </b><span th:text="*{authorName}"></span></div>
                 </li>
             </ul>
             <div class="card-body">
                 <form
-                    th:action="@{/workouts/details/{id}(id=*{id})}"
-                    th:method="delete"
-                    >
+                        th:action="@{/workouts/details/{id}(id=*{id})}"
+                        th:method="delete"
+                >
                     <input th:if="${isAuthorOrAdmin}" type="submit" value="Delete">
                 </form>
             </div>
