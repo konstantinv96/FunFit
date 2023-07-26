@@ -68,11 +68,19 @@ public class WorkoutController {
         return "workouts";
     }
 
+    //TODO: add Model and put it in edit page
+//    @GetMapping("{id}/edit")
+//    public String edit(@PathVariable("id") Long workoutId){
+//        workoutService.getWorkout(workoutId);
+//    }
+
     @GetMapping("/details/{id}")
-    public String getWorkout(@PathVariable("id") Long workoutId,Model model){
+    public String getWorkout(@PathVariable("id") Long workoutId,Model model,Principal principal){
         WorkoutDetailsView workout = workoutService.getWorkout(workoutId);
 
         model.addAttribute("workout", workout);
+        boolean isAuthorOrAdmin = workoutService.isAuthor(principal.getName(),workoutId);
+        model.addAttribute("isAuthorOrAdmin", isAuthorOrAdmin);
 
         //TODO Create a comment section for each workout
         return "workout-details";
@@ -82,7 +90,7 @@ public class WorkoutController {
     @DeleteMapping("/details/{id}")
     public String deleteWorkout(
             Principal principal,
-            @PathVariable("id") Long id){
+            @PathVariable("id") Long id,Model model){
         workoutService.deleteWorkoutById(id);
 
          return "redirect:/workouts/all";

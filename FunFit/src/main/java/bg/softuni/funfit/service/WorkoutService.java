@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +47,12 @@ public class WorkoutService {
 
         workoutRepository.save(workout);
     }
+
+    //TODO: User model mapper or extract the workout to addWorkoutDTO method , maybe change the addWorkoutDTO to addOrEditDTO
+
+//    public Optional<AddWorkoutDTO> getWorkoutEditDetails(Long workoutId){
+//        return workoutRepository.findById(workoutId).map(add);
+//    }
 
     public void deleteWorkoutById(Long workoutId){
         workoutRepository.deleteById(workoutId);

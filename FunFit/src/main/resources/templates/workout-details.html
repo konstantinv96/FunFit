@@ -35,7 +35,7 @@
                     th:action="@{/workouts/details/{id}(id=*{id})}"
                     th:method="delete"
                     >
-                    <input type="submit" value="Delete">
+                    <input th:if="${isAuthorOrAdmin}" type="submit" value="Delete">
                 </form>
             </div>
         </div>
